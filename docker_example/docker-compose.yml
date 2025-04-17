@@ -7,9 +7,13 @@ services:
     depends_on:
       - postgres
     environment:
+      - LANGFLOW_AUTO_LOGIN=false
       - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
-      # This variable defines where the logs, file storage, monitor data and secret keys are stored.
       - LANGFLOW_CONFIG_DIR=app/langflow
+      - LANGFLOW_STORAGE_DIR=app/langflow
+      - LANGFLOW_SUPERUSER=admin
+      - LANGFLOW_SUPERUSER_PASSWORD=yourpassword
+      - LANGFLOW_HOST=0.0.0.0
     volumes:
       - langflow-data:/app/langflow
     networks:
