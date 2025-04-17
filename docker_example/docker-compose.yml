@@ -12,6 +12,8 @@ services:
       - LANGFLOW_CONFIG_DIR=app/langflow
     volumes:
       - langflow-data:/app/langflow
+    networks:
+      - langflow_internal_net # <-- Use new network name
 
   postgres:
     image: postgres:16
@@ -23,7 +25,18 @@ services:
       - "5432:5432"
     volumes:
       - langflow-postgres:/var/lib/postgresql/data
+    networks:
+      - langflow_internal_net # <-- Use new network name
 
 volumes:
   langflow-postgres:
   langflow-data:
+
+# Define the explicit network with a NEW name and desired subnet
+networks:
+  langflow_internal_net: # <-- New network name
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.21.17.0/24 # <-- Keep your chosen subnet
+          # gateway: 10.21.15.1
